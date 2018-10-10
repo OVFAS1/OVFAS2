@@ -1,0 +1,91 @@
+{% extends 'ov/base1.html' %}
+{% block body %}
+<div class="content-wrapper">
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'ov:warden' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="{% url 'ov:warden' %}">Forms</a>
+        </li>
+        <li class="breadcrumb-item active">Outing Forms Approval</li>
+      </ol>
+      <hr>
+      <a class="btn btn-primary btn-md" href="{% url 'ov:filter-forms'%}" ><span class="fa fa-filter"></span> Filter</a>  <a class="btn btn-primary btn-md" href="{% url 'ov:outing-dapproval'%}" ><span class="fa fa-close"></span> Disapprove</a> <a class="btn btn-primary btn-md" href="{% url 'ov:export-outing' p_ids %}" ><span class="fa fa-external-link"></span> Export</a>
+      <hr>
+      <form method="POST" role="form" >
+        {% csrf_token %}
+        {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        {% include 'ov/form-template1.html'  %}
+      </form>
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-database"></i> DataBase         
+        </div>
+          <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  
+                  <th>Reg No.</th>
+                  <th>Name</th>
+                  <th>Phone Number</th>
+                  <th>Hostel Block</th>
+                  <th>Date Of Outing</th>
+                  <th>Purpose</th>
+                  <th>Time of leaving</th>
+                  <th>Time of arrival</th>
+                  <th>Approve Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in forms %}
+                <tr id="{{i.pk}}">
+                  <td>{{i.registration_no}}</td>
+                  <td>{{i.name}}</td>
+                  <td>{{i.student_phone_number}}</td>
+                  <td>{{i.hostel_block}}</td>
+                  <td>{{i.date_of_outing}}</td>
+                  <td>{{i.purpose_of_leaving}}</td>
+                  <td>{{i.time_of_leaving}}</td>
+                  <td>{{i.time_of_arrival}}</td>
+                  <td id="approve"><button class="btn btn-success btn-md" id="to_approve{{i.pk}}" value="{{i.pk}}"><i class="fa fa-check"></i> Approve</button></td>
+                </tr> 	
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="card-footer small text-muted" id="total"></div>
+    </div>
+
+</div>
+</div>
+{% for i in forms%}
+<script>
+    $("#to_approve{{i.pk}}").click(function(){
+     
+    var url = $("#approve").attr("data-user-url");  // get the url of the `load_cities` view
+    var userId = $("#to_approve{{i.pk}}").val();  // get the selected country ID from the HTML input
+    console.log(userId)
+    $.ajax({                       // initialize an AJAX request
+      url: "{% url 'ov:approve'%}",                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'user': userId       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_cities` view function
+        document.getElementById(data).style.display="none";
+          // replace the contents of the city input with the data that came from the server
+      }
+    });
+  });
+</script>
+{% endfor %}
+
+
+{% endblock%}

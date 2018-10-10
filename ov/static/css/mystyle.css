@@ -1,0 +1,11 @@
+#contain
+{
+    color: blue;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+#contain1
+{
+    float: left;
+    width: 10%;
+}

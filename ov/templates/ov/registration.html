@@ -1,0 +1,46 @@
+{% extends 'ov/base.html' %}
+{% block body %}
+{% load staticfiles %}
+
+
+<!--Contents-->
+<br>
+<div class="content-wrapper" align="center">
+    <form method="post">
+        {% csrf_token %}
+        <div class="container">
+            <div class="jumbotron col-sm-6">
+                <center><img src="{% static 'ov/Capture.PNG' %}" class="img-fluid" alt="Responsive image"></center>
+                <hr>
+                <center>
+                    <div class="card">
+                        <div class="card-body">
+                                {% if error_message %}    
+                            <div class="alert alert-danger" role="alert">
+                                    {{error_message}}
+                            </div>
+                            {% endif %}
+                            <div style="text-align: center;">
+                                <label ><h5>Enter your Registration Number</h5></label>
+                                <center>
+                                <div class="col-8">
+                                    <input type="text" placeholder="Registration Number" name="registration_no" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </center> 
+                        <br>
+                        <div class="form-group">
+                        <button class="btn btn-primary" type="submit"><h5>Submit</h5></button>
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+{% endblock%}

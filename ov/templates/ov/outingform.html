@@ -1,0 +1,167 @@
+{% extends 'ov/base.html' %}
+{% block body %}
+{% load staticfiles %}
+<br>
+<div class="content-wrapper" align="center">
+    <div class ="container">
+        <div class="jumbotron col-md-6">
+            {% if student_name %}
+                <div class="alert alert-success" role="alert">
+                        Logged in as {{student_name}}
+                  </div>
+            {% endif %}
+            <center><img src="{% static 'ov/Capture.PNG' %}" class="img-fluid" alt="Responsive image"></center>
+            <hr>
+        <center><h1>Outing Form</h1></center>
+        <p>Please Fill in this form to get the approval for outing request.</p>
+        <hr>
+        {% if error_message %}
+        <div class="alert alert-warning" role="alert">
+            {% for i in error_message %}
+            <h5>{{i}}</h5>
+            {%endfor%}
+        </div>
+        {%endif%}
+        {% if success_message %}
+        <div class="alert alert-success" role="alert">
+        {% for i in success_message %}
+        <h6>{{i}}</h6>
+        {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form  id="import-form" action="{% url 'ov:outingfill' reg_no %}"  method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div style="text-align: left;">
+        <label for="Full Name"><h5>Full Name</h5></label>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <input id='name' type="text" class="form-control" value="{{student_name}}"placeholder="Full name" readonly>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                    <div class="form-group"> 
+                            <div style="text-align: left;">
+                                    <label for="Select"><h5>Mess Type</h5></label>
+                            </div>
+                            <select name="mess-Select" class="form-control">
+                                {% for i in hostel_mess %}    
+                                <option>{{i}}</option>
+                                {% endfor %}
+                            </select>       
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                <div class="form-group">
+                        <div style="text-align: left;">
+                        <label for="Select"><h5>Hostel Block</h5></label>
+                        </div>
+                            <select name="hostel-select" class="form-control">
+                                {% for i in hostel_block %}
+                                        <option>{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        </div>
+                </div>
+              <br>
+                
+        <div class="row">
+            <div class="col-sm-6">
+                    <div style="text-align: left;">
+                            <label for="Student Mobile Number:"><h5>Student Mobile Number</h5></label>
+                    </div>
+                    <input name="student-phn" type="tel" max="10" class="form-control" placeholder="Enter your mobile number" required>
+
+            </div>
+            <div class="col-sm-6">
+                    <div style="text-align: left;">
+                            <label for="Parents Mobile Number:"><h5>Parents Mobile Number</h5></label>
+                    </div>
+                    <input type="tel" name="parent-phn" max="10" class="form-control" placeholder="Enter the mobile number" required>
+            </div>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                    <div style="text-align: left;">
+                            <label for="Time Of Leaving"><h5>Time of Leaving</h5></label>
+                    </div>
+                   
+                    
+                        <input name="t_leave"  type="time" class="form-control" required>
+                    </div>
+                    
+                
+            
+            <hr>
+        
+
+        <!--<div style="text-align: left;">-->
+        <div class="col-sm-6">
+                <div style="text-align: left;">   
+        <label for="Time Of Arrival"><h5>Time of Arrival</h5></label>
+                    </div>
+                <input name="t_arrival" type="time"  class="form-control" required>
+            </div>
+        
+        </div>
+        <br>
+        <div style="text-align: left;"> <h5> Choose Date :</h5></div>
+        <div class="row">
+                {% for i in weekends %}
+                <div class="col-sm-6">
+                        <div style="text-align: left;">
+                                <label><input type="radio" name="date" value="{{i}}"><h5>{{i}}</h5></label>
+                        </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        <br>
+        <div style="text-align: left;">
+        <label for="Visiting Address"><h5>Visiting Address</h5></label>
+        </div>
+        <div class="row">
+                <div class="col-sm-12">
+                    <textarea class="form-control" name="Visiting_address"  rows="3" required></textarea>  
+                    <!--<input type="text" placeholder="Enter the visiting Address" class="form-control">-->
+                </div>
+        </div>
+
+        <br>
+        <div style="text-align: left;">
+        <label for="Purpose of Visiting"><h5>Purpose of Visiting</h5></label> 
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="text" name="pur_visiting" class="form-control" required>
+            </div>
+        </div>
+        
+        <br>
+        <div style="text-align: left;">
+        <label for="Permanent Address"><h5>Permanent Address</h5></label>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <textarea class="form-control" name="Permanent_address" rows="3" required></textarea>
+            </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+        <center><button type="submit" class="btn btn-primary">Submit</button></center>
+    
+        </div>
+        </form>
+    </div>
+    </div>
+    </div>
+
+</center>  
+{% endblock %}
